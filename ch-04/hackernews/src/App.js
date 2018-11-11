@@ -28,7 +28,7 @@ class App extends Component {
   onDismiss(id) {
     const isNotId = item => item.objectID !== id;
     const updatedHits = this.state.result.hits.filter(isNotId);
-    this.setState({ 
+    this.setState({
       // the spread operation (...) takes merges the arguments in a new object
       result: { ...this.state.result, hits: updatedHits }
     });
@@ -40,7 +40,7 @@ class App extends Component {
 
   render() {
     const { searchTerm, result } = this.state;
-    if (!result) { return null; }
+
 
     return (
       <div className="page">
@@ -49,12 +49,15 @@ class App extends Component {
             value={searchTerm}
             onChange={this.onSearchChange}>
             Search
-        </Search>
-          <Table
+          </Search>
+        </div>
+        {result
+          ? <Table
             list={result.hits}
             pattern={searchTerm}
-            onDismiss={this.onDismiss} />
-        </div>
+            onDismiss={this.onDismiss}
+          />
+          : null}
       </div>);
   }
 
