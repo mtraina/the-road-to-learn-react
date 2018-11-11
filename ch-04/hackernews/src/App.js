@@ -29,8 +29,8 @@ class App extends Component {
     const isNotId = item => item.objectID !== id;
     const updatedHits = this.state.result.hits.filter(isNotId);
     this.setState({ 
-      // object assign created a new object as the merge result of the arguments
-      result: Object.assign({}, this.state.result, { hits: updatedHits })
+      // the spread operation (...) takes merges the arguments in a new object
+      result: { ...this.state.result, hits: updatedHits }
     });
   }
 
