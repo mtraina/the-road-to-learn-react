@@ -16,7 +16,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      result: null,
+      results: null,
+      searchKey: '',
       searchTerm: DEFAULT_QUERY,
     };
 
@@ -29,15 +30,21 @@ class App extends Component {
 
   setSearchTopStories(result) {
     const { hits, page } = result;
-    const oldHits = page !== 0
-      ? this.state.result.hits
+    const { searchKey, results } = this.state;
+
+    const oldHits = results && results[searchKey]
+      ? results[searchKey].hits
       : [];
+
     const updatedHits = [
       ...oldHits,
       ...hits
     ];
     this.setState({
-      result: { hits: updatedHits, page }
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page }
+      }
     });
   }
 
@@ -54,23 +61,46 @@ class App extends Component {
 
   onSearchSubmit(event) {
     const { searchTerm } = this.state;
+
+    this.setState({ searchKey: searchTerm });
     this.fetchSearchTopStories(searchTerm);
     // avoid the browser reloading (default behaviour)
     event.preventDefault();
   }
 
   onDismiss(id) {
+    const { searchKey, results } = this.state;
+    const { hits, page } = results[searchKey];
+
     const isNotId = item => item.objectID !== id;
-    const updatedHits = this.state.result.hits.filter(isNotId);
+    const updatedHits = hits.filter(isNotId);
+
     this.setState({
-      // the spread operation (...) takes merges the arguments in a new object
-      result: { ...this.state.result, hits: updatedHits }
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page }
+      }
     });
   }
 
   render() {
-    const { searchTerm, result } = this.state;
-    const page = (result && result.page) || 0;
+    const {
+      searchTerm,
+      results,
+      searchKey
+    } = this.state;
+
+    const page = (
+      results &&
+      results[searchKey] &&
+      results[searchKey].page
+    ) || 0;
+
+    const list = (
+      results &&
+      results[searchKey] &&
+      results[searchKey].hits
+    ) || [];
 
     return (
       <div className="page">
@@ -82,13 +112,11 @@ class App extends Component {
             Search
           </Search>
         </div>
-        {result &&
-          <Table
-            list={result.hits}
-            onDismiss={this.onDismiss}
-          />}
+        <Table
+          list={list}
+          onDismiss={this.onDismiss}/>
         <div className="interactions">
-          <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}>
+          <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
             More
           </Button>
         </div>
@@ -97,7 +125,7 @@ class App extends Component {
 
   componentDidMount() {
     const { searchTerm } = this.state;
-
+    this.setState({ searchKey: searchTerm });
     this.fetchSearchTopStories(searchTerm);
   }
 }
