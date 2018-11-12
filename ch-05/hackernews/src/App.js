@@ -21,11 +21,16 @@ class App extends Component {
       searchTerm: DEFAULT_QUERY,
     };
 
+    this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
+  }
+
+  needsToSearchTopStories(searchTerm) {
+    return !this.state.results[searchTerm];
   }
 
   setSearchTopStories(result) {
@@ -63,7 +68,11 @@ class App extends Component {
     const { searchTerm } = this.state;
 
     this.setState({ searchKey: searchTerm });
-    this.fetchSearchTopStories(searchTerm);
+
+    if (this.needsToSearchTopStories(searchTerm)) {
+      this.fetchSearchTopStories(searchTerm);
+    }
+
     // avoid the browser reloading (default behaviour)
     event.preventDefault();
   }
@@ -114,7 +123,7 @@ class App extends Component {
         </div>
         <Table
           list={list}
-          onDismiss={this.onDismiss}/>
+          onDismiss={this.onDismiss} />
         <div className="interactions">
           <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
             More
