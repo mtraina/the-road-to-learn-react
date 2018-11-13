@@ -4,14 +4,19 @@ import renderer from 'react-test-renderer';
 import Search from '../Search';
 
 describe('Search', () => {
+    const props = {
+        onChange: () => console.log('test'),
+        onSubmit: () => console.log('test')
+    }
+
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<Search>Search</Search>, div);
+        ReactDOM.render(<Search {...props}>Search</Search>, div);
         ReactDOM.unmountComponentAtNode(div);
     });
     test('has a valid snapshot', () => {
         const component = renderer.create(
-            <Search>Search</Search>
+            <Search {...props}>Search</Search>
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
