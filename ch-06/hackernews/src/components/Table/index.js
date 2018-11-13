@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import './index.css';
 
 const Table = ({ list, onDismiss }) =>
     <div className="table">
