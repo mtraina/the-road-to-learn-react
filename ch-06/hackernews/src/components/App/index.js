@@ -153,3 +153,9 @@ class App extends Component {
 const isSearched = searchTerm => item => item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
 export default App;
+
+export {
+  Button,
+  Search,
+  Table
+};
