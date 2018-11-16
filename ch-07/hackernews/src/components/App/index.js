@@ -119,7 +119,8 @@ class App extends Component {
   }
 
   onSort(sortKey) {
-    this.setState({ sortKey });
+    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
+    this.setState({ sortKey, isSortReverse });
   }
 
   render() {
@@ -129,7 +130,8 @@ class App extends Component {
       searchKey,
       error,
       isLoading,
-      sortKey
+      sortKey,
+      isSortReverse
     } = this.state;
 
     const page = (
@@ -160,7 +162,8 @@ class App extends Component {
           </div>
           : <Table
             list={list}
-            sortKey={sortKey} 
+            sortKey={sortKey}
+            isSortReverse={isSortReverse}
             onSort={this.onSort}
             onDismiss={this.onDismiss}
           />}
