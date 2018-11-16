@@ -12,8 +12,7 @@ import {
   PATH_SEARCH,
   PARAM_SEARCH,
   PARAM_PAGE,
-  PARAM_HPP,
-  SORTS
+  PARAM_HPP
 } from '../../constants';
 
 const Loading = () => <div>Loading ...</div>
@@ -38,8 +37,6 @@ class App extends Component {
       searchTerm: DEFAULT_QUERY,
       error: null,
       isLoading: false,
-      sortKey: 'NONE',
-      isSortReverse: false
     };
 
     this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -48,7 +45,6 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
-    this.onSort = this.onSort.bind(this);
   }
 
   needsToSearchTopStories(searchTerm) {
@@ -117,20 +113,13 @@ class App extends Component {
     });
   }
 
-  onSort(sortKey) {
-    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
-    this.setState({ sortKey, isSortReverse });
-  }
-
   render() {
     const {
       searchTerm,
       results,
       searchKey,
       error,
-      isLoading,
-      sortKey,
-      isSortReverse
+      isLoading
     } = this.state;
 
     const page = (
@@ -161,9 +150,6 @@ class App extends Component {
           </div>
           : <Table
             list={list}
-            sortKey={sortKey}
-            isSortReverse={isSortReverse}
-            onSort={this.onSort}
             onDismiss={this.onDismiss}
           />}
         <div className="interactions">
