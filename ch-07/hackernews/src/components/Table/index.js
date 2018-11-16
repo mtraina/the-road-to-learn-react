@@ -3,12 +3,24 @@ import Button from '../Button';
 import './index.css';
 import PropTypes from 'prop-types';
 
-const Sort = ({ sortKey, onSort, children }) =>
-    <Button
-        onClick={() => onSort(sortKey)}
-        className="button-inline">
-        {children}
-    </Button>
+const Sort = ({
+    sortKey,
+    activeSortKey,
+    onSort,
+    children
+}) => {
+    const sortClass = ['button-inline'];
+    if (sortKey === activeSortKey) {
+        sortClass.push('button-active');
+    }
+    return (
+        <Button
+            onClick={() => onSort(sortKey)}
+            className={sortClass.join(' ')}>
+            {children}
+        </Button>
+    );
+}
 
 const Table = ({
     list,
