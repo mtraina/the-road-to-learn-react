@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../Button';
 import './index.css';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 const Sort = ({
     sortKey,
@@ -9,14 +10,15 @@ const Sort = ({
     onSort,
     children
 }) => {
-    const sortClass = ['button-inline'];
-    if (sortKey === activeSortKey) {
-        sortClass.push('button-active');
-    }
+    const sortClass = classNames(
+        'button-inline',
+        { 'button-active': sortKey === activeSortKey }
+    );
+
     return (
         <Button
             onClick={() => onSort(sortKey)}
-            className={sortClass.join(' ')}>
+            className={sortClass}>
             {children}
         </Button>
     );
