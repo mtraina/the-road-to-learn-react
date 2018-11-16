@@ -17,6 +17,12 @@ import {
 
 const Loading = () => <div>Loading ...</div>
 
+// high order component
+const withLoading = (Component) => (props) =>
+  props.isLoading
+    ? <Loading />
+    : <Component {...props} />
+
 class App extends Component {
   _isMounted = false;
 
