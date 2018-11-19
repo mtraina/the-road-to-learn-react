@@ -2,10 +2,9 @@ import React from 'react';
 import './index.css';
 import PropTypes from 'prop-types';
 
-const Button = ({ onClick, className = '', children, label }) =>
-  <button
-    onClick={onClick}
-    className={className}>{label}
+const Button = ({ onClick, className = '', children }) =>
+  <button onClick={onClick} className={className}>
+    {children}
   </button>
 
 Button.propTypes = {
