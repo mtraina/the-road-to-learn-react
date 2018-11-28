@@ -86,11 +86,11 @@ const Table = ({
                         <span style={{ width: '10%' }}>
                             <Button onClick={() => onDismiss(item.objectID)} className="button-inline" label="Dismiss">
                                 Dismiss
-                    </Button>
+                            </Button>
                         </span>
                     </div>)
             }
-        </div >
+        </div>
 
 Table.propTypes = {
         list: PropTypes.array.isRequired,
